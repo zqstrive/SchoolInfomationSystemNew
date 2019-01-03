@@ -7,15 +7,23 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentOperate implements PersonOperate {
+    //定义读取的文件路径
     File fileStu = new File("d:"+ File.separator+"Student.txt");
     Scanner scanner = new Scanner(System.in);
+    //绑定文件操作类和主菜单
     private InfoOperate infoo ;
     private FileOperate fo;
     ArrayList<Student> stual;
     public StudentOperate(InfoOperate infoo,FileOperate fo) throws Exception {
         this.infoo = infoo;
         this.fo = fo;
-        stual = fo.loadStuText(fileStu);
+        /*
+            拆分时的操作方法
+         */
+        //stual = fo.loadStuText(fileStu);
+
+        //合并操作方法的加载学生信息方法
+        stual = (ArrayList<Student>) fo.loadText(fileStu);
     }
     public void show() throws Exception {
 
@@ -85,12 +93,14 @@ public class StudentOperate implements PersonOperate {
         System.out.println("输入学生成绩:");
         grade = scanner.nextDouble();
         Student newStu = new Student(id,name,age,grade);
+        //若文本文档内容是否为空，则新建集合类并添加元素
         if(stual==null||stual.size()==0){
             stual = new ArrayList<>();
             stual.add(newStu);
             System.out.println("添加成功");
         }else{
             for(int i=0;i<stual.size();i++){
+                //查重
                 if(stual.get(i).getId()!=newStu.getId()){
                     stual.add(newStu);
                     System.out.println("添加成功");
@@ -100,7 +110,10 @@ public class StudentOperate implements PersonOperate {
                 }
             }
         }
-        fo.saveStuText(stual,fileStu);
+        //fo.saveStuText(stual,fileStu);
+
+        //保存学生信息到文本文档中
+        fo.saveText(stual,fileStu);
         returnLast();
     }
     public void delete() throws Exception {
@@ -111,7 +124,8 @@ public class StudentOperate implements PersonOperate {
                 System.out.println("删除成功  " + stual.remove(i));
             }
         }
-        fo.saveStuText(stual,fileStu);
+        //fo.saveStuText(stual,fileStu);
+        fo.saveText(stual,fileStu);
         returnLast();
     }
     public void update() throws Exception {
@@ -156,7 +170,8 @@ public class StudentOperate implements PersonOperate {
             }
         }
         System.out.println("学生信息修改完成");
-        fo.saveStuText(stual,fileStu);
+        //fo.saveStuText(stual,fileStu);
+        fo.saveText(stual,fileStu);
         returnLast();
     }
     public void findAll() throws Exception {
@@ -172,7 +187,7 @@ public class StudentOperate implements PersonOperate {
             e.printStackTrace();
             System.out.println("当前文本内容为空");
         }finally {
-            if(stual.size()==0){
+            if(stual.size()==0){        //若当前文本内容为空，则必定执行该语句
                 System.out.println("当前文本为空********");
             }
             returnLast();

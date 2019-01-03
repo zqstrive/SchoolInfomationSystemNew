@@ -1,5 +1,6 @@
 package ValueObject;
 
+//Person抽象类
 public abstract class Person {
     public long id;
     public String name;

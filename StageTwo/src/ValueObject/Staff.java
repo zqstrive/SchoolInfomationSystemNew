@@ -1,5 +1,6 @@
 package ValueObject;
 
+//工人类
 public class Staff extends Person {
     private double salary;
     private String jobs;

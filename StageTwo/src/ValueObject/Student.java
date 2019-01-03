@@ -1,5 +1,6 @@
 package ValueObject;
 
+//学生类
 public class Student extends Person {
     private double grade;
 

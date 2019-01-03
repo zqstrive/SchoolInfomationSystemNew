@@ -7,15 +7,23 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StaffOperate implements PersonOperate {
+    //定义读取的文件路径
     File fileSta = new File("d:"+File.separator+"Staff.txt");
     Scanner scanner = new Scanner(System.in);
+    //绑定文件操作类和主菜单
     private InfoOperate infoo;
     private FileOperate fo;
     ArrayList<Staff> staal;
     public StaffOperate(InfoOperate infoo,FileOperate fo) throws Exception {
         this.infoo = infoo;
         this.fo = fo;
-        staal =  fo.loadStaText(fileSta) ;
+        /*
+            拆分时的操作方法
+         */
+        //staal =  fo.loadStaText(fileSta) ;
+
+        //合并操作方法的加载工人信息方法
+        staal = (ArrayList<Staff>) fo.loadText(fileSta);
     }
     public void show() throws Exception {
 
@@ -88,12 +96,14 @@ public class StaffOperate implements PersonOperate {
         System.out.println("输入工人工作");
         jobs = scanner.next();
         Staff newSta = new Staff(id,name,age,salary,jobs);
+        //若文本文档内容是否为空，则新建集合类并添加元素
         if(staal==null||staal.size()==0){
             staal = new ArrayList<>();
             staal.add(newSta);
             System.out.println("添加成功");
         }else {
             for(int i=0;i<staal.size();i++){
+                //查重
                 if(staal.get(i).getId()!=newSta.getId()){
                     staal.add(newSta);
                     System.out.println("添加成功");
@@ -103,7 +113,8 @@ public class StaffOperate implements PersonOperate {
                 }
             }
         }
-        fo.saveStaText(staal,fileSta);
+        //fo.saveStaText(staal,fileSta);
+        fo.saveText(staal,fileSta);
         returnLast();
     }
     public void delete() throws Exception {
@@ -114,7 +125,10 @@ public class StaffOperate implements PersonOperate {
                 System.out.println("删除成功  " + staal.remove(i));
             }
         }
-        fo.saveStaText(staal,fileSta);
+        //fo.saveStaText(staal,fileSta);
+
+        //保存工人信息到文本文档中
+        fo.saveText(staal,fileSta);
         returnLast();
     }
     public void update() throws Exception {
@@ -165,7 +179,8 @@ public class StaffOperate implements PersonOperate {
             }
         }
         System.out.println("工人信息修改完成");
-        fo.saveStaText(staal,fileSta);
+        //fo.saveStaText(staal,fileSta);
+        fo.saveText(staal,fileSta);
         returnLast();
     }
     public void findAll() throws Exception {
@@ -181,7 +196,7 @@ public class StaffOperate implements PersonOperate {
             e.printStackTrace();
             System.out.println("当前文本内容为空");
         }finally {
-            if(staal.size()==0){
+            if(staal.size()==0){         //若当前文本内容为空，则必定执行该语句
                 System.out.println("当前文本为空********");
             }
             returnLast();

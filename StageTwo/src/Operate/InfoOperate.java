@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class InfoOperate {
 
     Scanner scanner = new Scanner(System.in);
+    //将文件操作类和学生、工人操作类及本身绑定
     private FileOperate fo;
     private StudentOperate stuo;
     private StaffOperate stao;
